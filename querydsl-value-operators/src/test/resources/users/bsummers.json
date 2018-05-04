@@ -1,0 +1,26 @@
+{
+	"_id": null,
+	"userName": "bsummers",
+	"status": "ACTIVE",
+	"profile": {
+		"firstName": "Brianna",
+		"lastName": "Summers",
+		"middleName": "Harry",
+		"age": 50
+	},
+	"jobData": {
+		"department": "FINANCE",
+		"location": "NJ"
+	},
+	"emails": [{
+		"label": "Primary",
+		"address": "bsummers@company.com",
+		"verified": true,
+		"_default": true
+	}, {
+		"label": "Secondary",
+		"address": "bsummers@example.com",
+		"verified": true,
+		"_default": false
+	}]
+}

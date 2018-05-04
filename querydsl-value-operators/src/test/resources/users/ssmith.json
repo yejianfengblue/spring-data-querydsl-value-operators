@@ -1,0 +1,26 @@
+{
+	"_id": null,
+	"userName": "ssmith",
+	"status": "ACTIVE",
+	"profile": {
+		"firstName": "Stephen",
+		"lastName": "Smith",
+		"middleName": "Charles",
+		"age": 35
+	},
+	"jobData": {
+		"department": "HR",
+		"location": "NY"
+	},
+	"emails": [{
+		"label": "Primary",
+		"address": "ssmith@company.com",
+		"verified": true,
+		"_default": true
+	}, {
+		"label": "Secondary",
+		"address": "ssmith@example.com",
+		"verified": true,
+		"_default": false
+	}]
+}

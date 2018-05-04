@@ -1,0 +1,15 @@
+image: maven:3.3.9-jdk-8
+pipelines:
+  custom: 
+    deploy-to-staging: # to trigger build/deploy manually
+      - step:
+          script: 
+            - cd querydsl-value-operators
+            - openssl aes-256-cbc -pass pass:$OPENSSL_PWD -in build-tools/deploy/private-key.gpg.enc -out build-tools/deploy/private-key.gpg -d
+            - gpg --import build-tools/deploy/private-key.gpg
+            - mvn -V -B -s build-tools/deploy/settings.xml clean deploy -P integration-tests,reporting,sign-artifacts, #don't need site for deploy!
+            - echo "Manual triggerd build completed!"          
+  default:
+    - step:
+        script: 
+          - echo "Automated triggerd build are not configured for this repository!"

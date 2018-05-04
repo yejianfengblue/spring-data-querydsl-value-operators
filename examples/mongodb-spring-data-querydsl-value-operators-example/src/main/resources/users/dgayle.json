@@ -1,0 +1,26 @@
+{
+	"_id": "2a4639cb-6a4c-4084-b533-29d4f96bc5ff",
+	"userName": "dgayle",
+	"status": "ACTIVE",
+	"profile": {
+		"firstName": "Dale",
+		"lastName": "Gayle",
+		"middleName": "Owen",
+		"age": 41
+	},
+	"jobData": {
+		"department": "HR",
+		"location": "NY"
+	},
+	"emails": [{
+		"label": "Primary",
+		"address": "dgayle@company.com",
+		"verified": true,
+		"_default": true
+	}, {
+		"label": "Secondary",
+		"address": "dgayle@dummy.com",
+		"verified": true,
+		"_default": false
+	}]
+}
