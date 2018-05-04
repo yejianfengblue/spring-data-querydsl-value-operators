@@ -214,6 +214,7 @@ com.infradna.tool:bridge-method-annotation:jar:1.13:compile
 javax.inject:javax.inject:jar:1:compile
 com.mysema.commons:mysema-commons-lang:jar:0.2.4:compile
 javax.transaction:jta:jar:1.1:compile
+org.springframework:spring-context:jar:5.0.5.RELEASE:provided
 org.springframework:spring-core:jar:5.0.5.RELEASE:provided
 com.google.guava:guava:jar:18.0:compile
 org.springframework:spring-beans:jar:5.0.5.RELEASE:provided
