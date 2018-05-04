@@ -13,7 +13,7 @@
 
 	<groupId>org.bitbucket.gt_tech</groupId>
 	<artifactId>spring-data-querydsl-value-operators</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>Spring Data QueryDSL value operators</name>
@@ -694,6 +694,9 @@
 										<copy file="${project.basedir}/../README.md"
 											tofile="${project.build.directory}/custom_staging_for_site/markdown/README.md"
 											overwrite="true" />
+										<copy file="${project.basedir}/../examples/mongodb-spring-data-querydsl-value-operators-example/README.md"
+											  tofile="${project.build.directory}/custom_staging_for_site/markdown/EXAMPLE_APPLICATION.md"
+											  overwrite="true" />
 									</tasks>
 								</configuration>
 								<goals>

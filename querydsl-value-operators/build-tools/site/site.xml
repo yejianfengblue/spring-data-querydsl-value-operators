@@ -41,10 +41,10 @@
 		<!-- <links> -->
 		<!-- <item name="Project source repo" href="https://bitbucket.org/gt_tech/spring-data-querydsl-value-operators/"/> -->
 		<!-- </links> -->
-
 		<menu name="User documentation">
 			<item href="README.html" name="Guide" collapse="true" />
 			<item href="build.html" name="How to build source" collapse="true" />
+			<item href="EXAMPLE_APPLICATION.html" name="Example application" collapse="true" />
 		</menu>
 
 		<menu name="Code Coverage Reports">
