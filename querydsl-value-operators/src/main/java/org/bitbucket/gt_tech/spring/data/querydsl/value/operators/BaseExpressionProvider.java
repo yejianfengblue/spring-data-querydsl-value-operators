@@ -100,11 +100,12 @@ abstract class BaseExpressionProvider<P extends Path> implements ExpressionProvi
      *
      * @param path  Specific type of {@link Path}
      * @param value String value to be used for making expression.
+     * @param ignoreCase if comparison must be done ignoring case if case is applicable to target value type.
      * @return {@link BooleanExpression} to be used further by downstream query
      * serialization logic for executing actual query
      * @throws UnsupportedOperationException if implementation doesn't support this {@link Operator}
      */
-    protected abstract BooleanExpression eq(P path, String value);
+    protected abstract BooleanExpression eq(P path, String value, boolean ignoreCase);
 
     /**
      * Creates a expression for not-equals clause - {@link Operator#NOT_EQUAL}
@@ -112,23 +113,25 @@ abstract class BaseExpressionProvider<P extends Path> implements ExpressionProvi
      *
      * @param path  Specific type of {@link Path}
      * @param value String value to be used for making expression.
+     * @param ignoreCase if comparison must be done ignoring case if case is applicable to target value type.
      * @return {@link BooleanExpression} to be used further by downstream query
      * serialization logic for executing actual query
      * @throws UnsupportedOperationException if implementation doesn't support this {@link Operator}
      */
-    protected abstract BooleanExpression ne(P path, String value);
+    protected abstract BooleanExpression ne(P path, String value, boolean ignoreCase);
 
     /**
      * Creates a expression for contains/like clause - {@link Operator#CONTAINS}
      * operator
      *
      * @param path  Specific type of {@link Path}
-     * @param value String value to be used for making expression.
+     * @param value String value to be used for making expression
+     * @param ignoreCase if comparison must be done ignoring case if case is applicable to target value type.             .
      * @return {@link BooleanExpression} to be used further by downstream query
      * serialization logic for executing actual query
      * @throws UnsupportedOperationException if implementation doesn't support this {@link Operator}
      */
-    protected abstract BooleanExpression contains(P path, String value);
+    protected abstract BooleanExpression contains(P path, String value, boolean ignoreCase);
 
     /**
      * Creates a expression for startsWith clause - {@link Operator#STARTS_WITH}
@@ -136,11 +139,12 @@ abstract class BaseExpressionProvider<P extends Path> implements ExpressionProvi
      *
      * @param path  Specific type of {@link Path}
      * @param value String value to be used for making expression.
+     * @param ignoreCase if comparison must be done ignoring case if case is applicable to target value type.
      * @return {@link BooleanExpression} to be used further by downstream query
      * serialization logic for executing actual query
      * @throws UnsupportedOperationException if implementation doesn't support this {@link Operator}
      */
-    protected abstract BooleanExpression startsWith(P path, String value);
+    protected abstract BooleanExpression startsWith(P path, String value, boolean ignoreCase);
 
     /**
      * Creates a expression for endsWith clause - {@link Operator#ENDS_WITH}
@@ -148,11 +152,12 @@ abstract class BaseExpressionProvider<P extends Path> implements ExpressionProvi
      *
      * @param path  Specific type of {@link Path}
      * @param value String value to be used for making expression.
+     * @param ignoreCase if comparison must be done ignoring case if case is applicable to target value type.
      * @return {@link BooleanExpression} to be used further by downstream query
      * serialization logic for executing actual query
      * @throws UnsupportedOperationException if implementation doesn't support this {@link Operator}
      */
-    protected abstract BooleanExpression endsWith(P path, String value);
+    protected abstract BooleanExpression endsWith(P path, String value, boolean ignoreCase);
 
     /**
      * Creates a expression for matches clause - {@link Operator#MATCHES}
@@ -382,6 +387,7 @@ abstract class BaseExpressionProvider<P extends Path> implements ExpressionProvi
         private Operator operator;
         private SingleValueExpressionBuilder parent;
         private SingleValueExpressionBuilder next;
+        private boolean ignoreCase = false;
 
         public SingleValueExpressionBuilder(P path, String value) {
             init(path, value);
@@ -390,6 +396,20 @@ abstract class BaseExpressionProvider<P extends Path> implements ExpressionProvi
         private SingleValueExpressionBuilder(final P path, String value, final SingleValueExpressionBuilder parent) {
             this.parent = parent;
             init(path, value);
+        }
+
+        /**
+         * @return if case should be ignored.
+         */
+        public boolean isIgnoreCase() {
+            return ignoreCase;
+        }
+
+        /**
+         * @param ignoreCase set <code>true</code> if case sensitivity should be ignored.
+         */
+        public void setIgnoreCase(boolean ignoreCase) {
+            this.ignoreCase = ignoreCase;
         }
 
         /*
@@ -408,6 +428,11 @@ abstract class BaseExpressionProvider<P extends Path> implements ExpressionProvi
                 Validate.isTrue(StringUtils.isNotBlank(this.value),
                                 "Sub-operation must be available with NOT operator");
                 this.next = new SingleValueExpressionBuilder(path, ov.getValue(), this);
+            } else if (Operator.CASE_IGNORE.equals(this.operator)) {
+                Validate.isTrue(StringUtils.isNotBlank(this.value),
+                                "Sub-operation must be available with CASE_IGNORE operator");
+                this.next = new SingleValueExpressionBuilder(path, ov.getValue(), this);
+                this.next.setIgnoreCase(true);
             } else if (ExpressionProvider.isOperator(SUPPORTED_SINGLE_VALUED_COMPARISON_OPERATORS.toArray(
                     new Operator[SUPPORTED_SINGLE_VALUED_COMPARISON_OPERATORS.size()]), this.value)
                                          .isPresent()) { // TODO: Perhaps check for an
@@ -434,20 +459,23 @@ abstract class BaseExpressionProvider<P extends Path> implements ExpressionProvi
             BooleanExpression result;
 
             switch (this.operator) {
+                case CASE_IGNORE:
+                    result = this.next.getExpression();
+                    break;
                 case EQUAL:
-                    result = eq(path, this.value);
+                    result = eq(path, this.value, this.isIgnoreCase());
                     break;
                 case NOT_EQUAL:
-                    result = ne(path, this.value);
+                    result = ne(path, this.value, this.isIgnoreCase());
                     break;
                 case CONTAINS:
-                    result = contains(path, this.value);
+                    result = contains(path, this.value, this.isIgnoreCase());
                     break;
                 case STARTS_WITH:
-                    result = startsWith(path, this.value);
+                    result = startsWith(path, this.value, this.isIgnoreCase());
                     break;
                 case ENDS_WITH:
-                    result = endsWith(path, this.value);
+                    result = endsWith(path, this.value, this.isIgnoreCase());
                     break;
                 case MATCHES:
                     result = matches(path, this.value);

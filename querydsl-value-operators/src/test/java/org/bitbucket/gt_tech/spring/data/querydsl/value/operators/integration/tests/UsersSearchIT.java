@@ -65,6 +65,34 @@ public class UsersSearchIT {
                 hasProperty("userName", is("ssmith"))));
     }
 
+    @Test
+    public void testUserSearchWithUserNames_ImplicitORClause_WithDefaultCaseSensitivity() {
+        ResponseEntity<List<User>> response = template.exchange("/users/search?userName=dgayle&userName=SsmiTh",
+                                                                HttpMethod.GET, null,
+                                                                new ParameterizedTypeReference<List<User>>() {
+                                                                });
+
+        assertEquals(1, response.getBody()
+                                .size());
+        assertThat(response.getBody(), contains(
+                hasProperty("userName", is("dgayle"))));
+    }
+
+    @Test
+    public void testUserSearchWithUserNames_ImplicitORClause_WithExplicitCaseInSensitivity() {
+        ResponseEntity<List<User>> response = template.exchange("/users/search?userName=dgayle&userName=ci(eq" +
+                                                                        "(SsmiTh))",
+                                                                HttpMethod.GET, null,
+                                                                new ParameterizedTypeReference<List<User>>() {
+                                                                });
+
+        assertEquals(2, response.getBody()
+                                .size());
+        assertThat(response.getBody(), containsInAnyOrder(
+                hasProperty("userName", is("dgayle")),
+                hasProperty("userName", is("ssmith"))));
+    }
+
 
     @Test
     public void testUserSearchWithEmailsEndsWith_ImplicitORClause() {

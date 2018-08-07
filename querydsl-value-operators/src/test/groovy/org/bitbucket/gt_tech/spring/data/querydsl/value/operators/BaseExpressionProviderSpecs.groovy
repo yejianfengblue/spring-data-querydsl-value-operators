@@ -113,31 +113,31 @@ class BaseExpressionProviderSpecs extends Specification {
         }
 
         @Override
-        protected BooleanExpression eq(Path path, String value) {
+        protected BooleanExpression eq(Path path, String value, boolean ignoreCase) {
             invocations << ["eq": value]
             expression
         }
 
         @Override
-        protected BooleanExpression ne(Path path, String value) {
+        protected BooleanExpression ne(Path path, String value, boolean ignoreCase) {
             invocations << ["ne": value]
             expression
         }
 
         @Override
-        protected BooleanExpression contains(Path path, String value) {
+        protected BooleanExpression contains(Path path, String value, boolean ignoreCase) {
             invocations << ["contains": value]
             expression
         }
 
         @Override
-        protected BooleanExpression startsWith(Path path, String value) {
+        protected BooleanExpression startsWith(Path path, String value, boolean ignoreCase) {
             invocations << ["startsWith": value]
             expression
         }
 
         @Override
-        protected BooleanExpression endsWith(Path path, String value) {
+        protected BooleanExpression endsWith(Path path, String value, boolean ignoreCase) {
             invocations << ["endsWith": value]
             expression
         }

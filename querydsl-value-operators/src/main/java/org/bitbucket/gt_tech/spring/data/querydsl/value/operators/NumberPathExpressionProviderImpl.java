@@ -47,25 +47,25 @@ class NumberPathExpressionProviderImpl extends BaseExpressionProvider<NumberPath
         return (S) String.valueOf(value);
     }
 
-    @Override protected BooleanExpression eq(NumberPath path, String value) {
+    @Override protected BooleanExpression eq(NumberPath path, String value, boolean ignoreCase) {
         Validate.isTrue(StringUtils.isNumeric(value), "Invalid numeric value");
         return path.eq(Integer.parseInt(StringUtils.trim(value)));
     }
 
-    @Override protected BooleanExpression ne(NumberPath path, String value) {
+    @Override protected BooleanExpression ne(NumberPath path, String value, boolean ignoreCase) {
         Validate.isTrue(StringUtils.isNumeric(value), "Invalid numeric value");
         return path.ne(Integer.parseInt(StringUtils.trim(value)));
     }
 
-    @Override protected BooleanExpression contains(NumberPath path, String value) {
+    @Override protected BooleanExpression contains(NumberPath path, String value, boolean ignoreCase) {
         throw new UnsupportedOperationException("Number can't be searched using contains operator");
     }
 
-    @Override protected BooleanExpression startsWith(NumberPath path, String value) {
+    @Override protected BooleanExpression startsWith(NumberPath path, String value, boolean ignoreCase) {
         throw new UnsupportedOperationException("Number can't be searched using startsWith operator");
     }
 
-    @Override protected BooleanExpression endsWith(NumberPath path, String value) {
+    @Override protected BooleanExpression endsWith(NumberPath path, String value, boolean ignoreCase) {
         throw new UnsupportedOperationException("Number can't be searched using endsWith operator");
     }
 

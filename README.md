@@ -127,20 +127,23 @@ The syntax of using value operator is shown below. There are also sensible defau
 
 ### Value comparison operators
   * **eq** - Equal operator 
-  This operator performs case-insensitive searches to the degree possible.
+  This operator performs case-sensitive searches (unless the behavior is controlled by collation in underlying data source). _Until v1.0.0, this operator performed case-insensitive searches by default._
   (Default implicit operator for a given field value unless an explicit value operator is specified).
  
   * **ne** - Not-Equal operator. 
-  Performs case-insensitive searches to the degree possible
+  Performs case-sensitive searches (unless the behavior is controlled by collation in underlying data source). _Until v1.0.0, this operator performed case-insensitive searches by default._
 
   * **startsWith** 
-  Operator to perform a search where input value is starting value for the search field/parameter. Performs case-insensitive searches to the degree possible
+  Operator to perform a search where input value is starting value for the search field/parameter. Performs case-sensitive searches (unless the behavior is controlled by collation in underlying data source). _Until v1.0.0, this operator performed case-insensitive searches by default._
 
   * **endsWith**
-  Operator to perform a search where input value is ending value for the search field/parameter. Performs case-insensitive searches to the degree possible
+  Operator to perform a search where input value is ending value for the search field/parameter. Performs case-sensitive searches (unless the behavior is controlled by collation in underlying data source) _Until v1.0.0, this operator performed case-insensitive searches by default._
 
   * **contains** - *LIKE* operator. 
-  Operator to perform a search where input value is contained in the target field. Performs case-insensitive searches to the degree possible
+  Operator to perform a search where input value is contained in the target field. Performs case-sensitive searches (unless the behavior is controlled by collation in underlying data source) _Until v1.0.0, this operator performed case-insensitive searches by default._
+
+  * **ci** - *Case insensitive* operator. 
+   Operator can be used to enclose over **eq**, **ne**, **startsWith**, **endsWith**, **contains** operator to affect their behavior to perform case-insensitive searches. For example, ```firstName=ci(contains(john))```
 
   * **matches**
   Operator that takes a regular expression which must be applied while performing lookup/query on target database.
@@ -239,7 +242,7 @@ Readers can skip the other sub-sections here and can directly jump to **Example 
 <dependency>
     <groupId>org.bitbucket.gt_tech</groupId>
     <artifactId>spring-data-querydsl-value-operators</artifactId>
-    <version>x.x.x</version> <!-- 1.0.0 -->
+    <version>x.x.x</version> <!-- 1.0.0 or latest version -->
 </dependency>
 ```
 

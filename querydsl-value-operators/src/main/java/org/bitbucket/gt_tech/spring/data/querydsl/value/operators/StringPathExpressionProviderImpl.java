@@ -35,7 +35,7 @@ class StringPathExpressionProviderImpl extends BaseExpressionProvider<StringPath
 
 	public StringPathExpressionProviderImpl() {
 		super(Arrays.asList(Operator.EQUAL, Operator.NOT_EQUAL, Operator.CONTAINS, Operator.STARTS_WITH,
-				Operator.ENDS_WITH, Operator.NOT, Operator.MATCHES));
+				Operator.ENDS_WITH, Operator.NOT, Operator.MATCHES, Operator.CASE_IGNORE));
 	}
 
 	@Override
@@ -44,28 +44,28 @@ class StringPathExpressionProviderImpl extends BaseExpressionProvider<StringPath
 	}
 
 	@Override
-	protected BooleanExpression eq(StringPath path, String value) {
-		return path.equalsIgnoreCase(value);
+	protected BooleanExpression eq(StringPath path, String value, boolean ignoreCase) {
+		return ignoreCase ? path.equalsIgnoreCase(value): path.eq(value);
 	}
 
 	@Override
-	protected BooleanExpression ne(StringPath path, String value) {
-		return path.notEqualsIgnoreCase(value);
+	protected BooleanExpression ne(StringPath path, String value, boolean ignoreCase) {
+		return ignoreCase ? path.notEqualsIgnoreCase(value): path.ne(value);
 	}
 
 	@Override
-	protected BooleanExpression contains(StringPath path, String value) {
-		return path.containsIgnoreCase(value);
+	protected BooleanExpression contains(StringPath path, String value, boolean ignoreCase) {
+		return ignoreCase ? path.containsIgnoreCase(value) : path.contains(value);
 	}
 
 	@Override
-	protected BooleanExpression startsWith(StringPath path, String value) {
-		return path.startsWithIgnoreCase(value);
+	protected BooleanExpression startsWith(StringPath path, String value, boolean ignoreCase) {
+		return ignoreCase ? path.startsWithIgnoreCase(value) : path.startsWith(value);
 	}
 
 	@Override
-	protected BooleanExpression endsWith(StringPath path, String value) {
-		return path.endsWithIgnoreCase(value);
+	protected BooleanExpression endsWith(StringPath path, String value, boolean ignoreCase) {
+		return ignoreCase ? path.endsWithIgnoreCase(value) : path.endsWith(value);
 	}
 
 	@Override

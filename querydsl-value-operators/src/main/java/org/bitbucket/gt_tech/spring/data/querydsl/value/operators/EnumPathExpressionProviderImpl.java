@@ -33,34 +33,38 @@ import java.util.stream.Collectors;
 
 /**
  * Implementation of {@link BaseExpressionProvider} for supporting {@link EnumPath}
- * @author gt_tech
  *
+ * @author gt_tech
  */
 class EnumPathExpressionProviderImpl extends BaseExpressionProvider<EnumPath> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EnumPathExpressionProviderImpl.class);
 
     final LoadingCache<String, Pattern> regex_pattern_cache = CacheBuilder.newBuilder()
-                                                       .maximumSize(500)
-                                                       .build(
-                                                               new CacheLoader<String, Pattern>() {
-                                                                   public Pattern load(String key) { // no checked
-                                                                       // exception
-                                                                       return Pattern.compile(key, Pattern.CASE_INSENSITIVE);
-                                                                   }
-                                                               });
+                                                                          .maximumSize(500)
+                                                                          .build(
+                                                                                  new CacheLoader<String, Pattern>() {
+                                                                                      public Pattern load(String key)
+                                                                                      { // no checked
+                                                                                          // exception
+                                                                                          return Pattern.compile(key,
+                                                                                                                 Pattern.CASE_INSENSITIVE);
+                                                                                      }
+                                                                                  });
 
     EnumPathExpressionProviderImpl() {
-        super(ExpressionProviderFactory.isSupportsUnTypedValues() ? Arrays.asList(Operator.EQUAL, Operator.NOT_EQUAL, Operator.CONTAINS,
-                                                    Operator.STARTS_WITH, Operator
-                                                            .ENDS_WITH,
-                                                    Operator
-                                                            .NOT, Operator.MATCHES)
-                                    : Arrays.asList(new Operator[]{
-                                            Operator.EQUAL,
-                                            Operator.NOT_EQUAL,
-                                            Operator.NOT
-                                    }));
+        super(ExpressionProviderFactory.isSupportsUnTypedValues() ? Arrays.asList(Operator.EQUAL, Operator.NOT_EQUAL,
+                                                                                  Operator.CONTAINS,
+                                                                                  Operator.STARTS_WITH, Operator
+                                                                                          .ENDS_WITH,
+                                                                                  Operator
+                                                                                          .NOT, Operator.MATCHES,
+                                                                                  Operator.CASE_IGNORE)
+                                                                  : Arrays.asList(new Operator[]{
+                                                                          Operator.EQUAL,
+                                                                          Operator.NOT_EQUAL,
+                                                                          Operator.NOT
+                                                                  }));
     }
 
     @Override protected <S extends String> S getStringValue(EnumPath path, Object value) {
@@ -72,19 +76,22 @@ class EnumPathExpressionProviderImpl extends BaseExpressionProvider<EnumPath> {
 
     }
 
-    @Override protected BooleanExpression eq(EnumPath path, String value) {
+    @Override protected BooleanExpression eq(EnumPath path, String value, boolean ignoreCase) {
         return path.eq(value);
     }
 
-    @Override protected BooleanExpression ne(EnumPath path, String value) {
+    @Override protected BooleanExpression ne(EnumPath path, String value, boolean ignoreCase) {
         return path.ne(value);
     }
 
-    @Override protected BooleanExpression contains(EnumPath path, String value) {
+    @Override protected BooleanExpression contains(EnumPath path, String value, boolean ignoreCase) {
         if (ExpressionProviderFactory.isSupportsUnTypedValues()) {
             return path.in((List) EnumUtils.getEnumList(path.getType())
                                            .stream()
-                                           .filter(v -> StringUtils.containsIgnoreCase(v.toString(), value))
+                                           .filter(v -> ignoreCase ? StringUtils.containsIgnoreCase(v.toString(),
+                                                                                                    value)
+                                                                   : StringUtils.contains(v.toString(),
+                                                                                          value))
                                            .collect(Collectors.toList()));
         } else {
 
@@ -93,11 +100,14 @@ class EnumPathExpressionProviderImpl extends BaseExpressionProvider<EnumPath> {
         }
     }
 
-    @Override protected BooleanExpression startsWith(EnumPath path, String value) {
+    @Override protected BooleanExpression startsWith(EnumPath path, String value, boolean ignoreCase) {
         if (ExpressionProviderFactory.isSupportsUnTypedValues()) {
             return path.in((List) EnumUtils.getEnumList(path.getType())
                                            .stream()
-                                           .filter(v -> StringUtils.startsWithIgnoreCase(v.toString(), value))
+                                           .filter(v -> ignoreCase ? StringUtils.startsWithIgnoreCase(v.toString(),
+                                                                                                      value)
+                                                                   : StringUtils.startsWith(v.toString(),
+                                                                                            value))
                                            .collect(Collectors.toList()));
         } else {
 
@@ -106,11 +116,14 @@ class EnumPathExpressionProviderImpl extends BaseExpressionProvider<EnumPath> {
         }
     }
 
-    @Override protected BooleanExpression endsWith(EnumPath path, String value) {
+    @Override protected BooleanExpression endsWith(EnumPath path, String value, boolean ignoreCase) {
         if (ExpressionProviderFactory.isSupportsUnTypedValues()) {
             return path.in((List) EnumUtils.getEnumList(path.getType())
                                            .stream()
-                                           .filter(v -> StringUtils.endsWithIgnoreCase(v.toString(), value))
+                                           .filter(v -> ignoreCase ? StringUtils.endsWithIgnoreCase(v.toString(),
+                                                                                                    value)
+                                                                   : StringUtils.endsWith(v.toString(),
+                                                                                          value))
                                            .collect(Collectors.toList()));
         } else {
 
@@ -123,7 +136,9 @@ class EnumPathExpressionProviderImpl extends BaseExpressionProvider<EnumPath> {
         if (ExpressionProviderFactory.isSupportsUnTypedValues()) {
             return path.in((List) EnumUtils.getEnumList(path.getType())
                                            .stream()
-                                           .filter(v -> regex_pattern_cache.getUnchecked(value).matcher(v.toString()).matches())
+                                           .filter(v -> regex_pattern_cache.getUnchecked(value)
+                                                                           .matcher(v.toString())
+                                                                           .matches())
                                            .collect(Collectors.toList()));
         } else {
 

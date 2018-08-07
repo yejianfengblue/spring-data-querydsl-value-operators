@@ -88,7 +88,11 @@ public enum Operator {
     /**
      * Less than or equal operator primarily to be used for numeric values
      */
-    LESS_THAN_OR_EQUAL("lte");
+    LESS_THAN_OR_EQUAL("lte"),
+    /**
+     * Unary operator to indicate a particular other value operator must execute its logic by ignoring case.
+     */
+    CASE_IGNORE("ci");
 
 
     private String value;
