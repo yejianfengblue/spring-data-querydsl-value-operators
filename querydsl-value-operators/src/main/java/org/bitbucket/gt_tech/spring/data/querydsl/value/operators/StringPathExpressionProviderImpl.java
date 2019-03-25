@@ -34,8 +34,8 @@ class StringPathExpressionProviderImpl extends BaseExpressionProvider<StringPath
 	private static final Logger LOGGER = LoggerFactory.getLogger(StringPathExpressionProviderImpl.class);
 
 	public StringPathExpressionProviderImpl() {
-		super(Arrays.asList(Operator.EQUAL, Operator.NOT_EQUAL, Operator.CONTAINS, Operator.STARTS_WITH,
-				Operator.ENDS_WITH, Operator.NOT, Operator.MATCHES, Operator.CASE_IGNORE));
+		super(Arrays.asList(Operator.EQUAL, Operator.NOT_EQUAL, Operator.CONTAINS, Operator.STARTS_WITH, Operator.STARTSWITH,
+				Operator.ENDS_WITH, Operator.ENDSWITH, Operator.NOT, Operator.MATCHES, Operator.CASE_IGNORE));
 	}
 
 	@Override

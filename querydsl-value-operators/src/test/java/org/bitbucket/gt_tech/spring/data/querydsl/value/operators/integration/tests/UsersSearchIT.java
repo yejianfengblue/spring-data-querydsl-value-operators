@@ -111,6 +111,50 @@ public class UsersSearchIT {
                 hasProperty("userName", is("ssmith"))));
     }
 
+    @Test
+    public void testUserSearchWithEmailsKebabCaseStartsWith() {
+        ResponseEntity<List<User>> response = template.exchange("/users/search?emails.address=starts-with(ssmith)",
+                HttpMethod.GET, null,
+                new ParameterizedTypeReference<List<User>>() {
+                });
+
+        assertEquals(1, response.getBody()
+                                .size());
+        assertThat(response.getBody(), contains(
+                hasProperty("userName", is("ssmith"))));
+    }
+
+
+    @Test
+    public void testUserSearchWithEmailsStartsWith() {
+        ResponseEntity<List<User>> response = template.exchange("/users/search?emails.address=startsWith(dgayle@co)",
+                HttpMethod.GET, null,
+                new ParameterizedTypeReference<List<User>>() {
+                });
+
+        assertEquals(1, response.getBody()
+                                .size());
+        assertThat(response.getBody(), contains(
+                hasProperty("userName", is("dgayle"))));
+    }
+
+
+    @Test
+    public void testUserSearchWithEmailsKebabCaseEndsWith_ImplicitORClause() {
+        ResponseEntity<List<User>> response = template.exchange("/users/search?emails.address=ends-with(@company.com)" +
+                        "&emails.address=ends-with(@dummy.com)",
+                HttpMethod.GET, null,
+                new ParameterizedTypeReference<List<User>>() {
+                });
+
+        assertEquals(4, response.getBody()
+                                .size());
+        assertThat(response.getBody(), containsInAnyOrder(
+                hasProperty("userName", is("bsummers")),
+                hasProperty("userName", is("dgayle")),
+                hasProperty("userName", is("ksmith")),
+                hasProperty("userName", is("ssmith"))));
+    }
 
     @Test
     public void testUserSearchWithEmailsEndsWith_ImplicitORClause_WithNegatedCriteria() {
