@@ -517,6 +517,7 @@
 							<excludes>
 								<exclude>**/*Test.java</exclude>
 							</excludes>
+							<forkCount>0</forkCount>
 						</configuration>
 						<executions>
 							<execution>
