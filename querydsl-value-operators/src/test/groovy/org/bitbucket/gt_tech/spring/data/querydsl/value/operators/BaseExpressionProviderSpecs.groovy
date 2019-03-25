@@ -54,7 +54,9 @@ class BaseExpressionProviderSpecs extends Specification {
         "eq(johnDoe)"                | ["getStringValue": "eq(johnDoe)", "eq": "johnDoe"]                     | 0   | 0   | 0
         "ne(johnDoe)"                | ["getStringValue": "ne(johnDoe)", "ne": "johnDoe"]                     | 0   | 0   | 0
         "startsWith(johnDoe)"        | ["getStringValue": "startsWith(johnDoe)", "startsWith": "johnDoe"]     | 0   | 0   | 0
+        "starts-with(johnDoe)"        | ["getStringValue": "starts-with(johnDoe)", "startsWith": "johnDoe"]     | 0   | 0   | 0
         "endsWith(johnDoe)"          | ["getStringValue": "endsWith(johnDoe)", "endsWith": "johnDoe"]         | 0   | 0   | 0
+        "ends-with(johnDoe)"          | ["getStringValue": "ends-with(johnDoe)", "endsWith": "johnDoe"]         | 0   | 0   | 0
         "contains(johnDoe)"          | ["getStringValue": "contains(johnDoe)", "contains": "johnDoe"]         | 0   | 0   | 0
         "matches(john*Doe)"          | ["getStringValue": "matches(john*Doe)", "matches": "john*Doe"]         | 0   | 0   | 0
         "gt(10)"                     | ["getStringValue": "gt(10)", "gt": "10"]                               | 0   | 0   | 0
@@ -92,6 +94,7 @@ class BaseExpressionProviderSpecs extends Specification {
         where:
         test_value                                                     | invocations                                                                                                                                                | not | and | or
         ["endsWith(@company.com)", "endsWith(@example.com)"]           | ["getStringValue": "endsWith(@company.com)", "endsWith": "@company.com", "getStringValue": "endsWith(@example.com)", "endsWith": "@example.com"]           | 0   | 0   | 1
+        ["endsWith(@company.com)", "ends-with(@example.com)"]           | ["getStringValue": "endsWith(@company.com)", "endsWith": "@company.com", "getStringValue": "ends-with(@example.com)", "endsWith": "@example.com"]           | 0   | 0   | 1
         ["endsWith(@company.com)", "and(endsWith(@example.com))"]      | ["getStringValue": "endsWith(@company.com)", "endsWith": "@company.com", "getStringValue": "and(endsWith(@example.com))", "endsWith": "@example.com"]      | 0   | 1   | 0
         ["endsWith(@company.com)", "and(not(endsWith(@example.com)))"] | ["getStringValue": "endsWith(@company.com)", "endsWith": "@company.com", "getStringValue": "and(not(endsWith(@example.com)))", "endsWith": "@example.com"] | 1   | 1   | 0
     }

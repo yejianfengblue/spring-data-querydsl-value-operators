@@ -133,10 +133,10 @@ The syntax of using value operator is shown below. There are also sensible defau
   * **ne** - Not-Equal operator. 
   Performs case-sensitive searches (unless the behavior is controlled by collation in underlying data source). _Until v1.0.0, this operator performed case-insensitive searches by default._
 
-  * **startsWith** 
+  * **startsWith (also supported in Kebab case starts-with)** 
   Operator to perform a search where input value is starting value for the search field/parameter. Performs case-sensitive searches (unless the behavior is controlled by collation in underlying data source). _Until v1.0.0, this operator performed case-insensitive searches by default._
 
-  * **endsWith**
+  * **endsWith (also supported in Kebab case ends-with)**
   Operator to perform a search where input value is ending value for the search field/parameter. Performs case-sensitive searches (unless the behavior is controlled by collation in underlying data source) _Until v1.0.0, this operator performed case-insensitive searches by default._
 
   * **contains** - *LIKE* operator. 

@@ -42,7 +42,9 @@ class OperatorAndValueSpecs extends Specification {
         "ne(search_value)"         | values().toList() | NOT_EQUAL             | "search_value" | EQUAL
         "contains(value)"          | values().toList() | CONTAINS              | "value"        | EQUAL
         "startsWith(search_value)" | values().toList() | STARTS_WITH           | "search_value" | EQUAL
+        "starts-with(search_value)" | values().toList() | STARTSWITH           | "search_value" | EQUAL
         "endsWith(search_value)"   | values().toList() | ENDS_WITH             | "search_value" | EQUAL
+        "ends-with(search_value)"   | values().toList() | ENDSWITH             | "search_value" | EQUAL
         "matches(search_value)"    | values().toList() | MATCHES               | "search_value" | EQUAL
         "or(search_value)"         | values().toList() | OR                    | "search_value" | EQUAL
         "and(search_value)"        | values().toList() | AND                   | "search_value" | EQUAL

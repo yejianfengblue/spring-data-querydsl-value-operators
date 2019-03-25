@@ -55,8 +55,8 @@ class EnumPathExpressionProviderImpl extends BaseExpressionProvider<EnumPath> {
     EnumPathExpressionProviderImpl() {
         super(ExpressionProviderFactory.isSupportsUnTypedValues() ? Arrays.asList(Operator.EQUAL, Operator.NOT_EQUAL,
                                                                                   Operator.CONTAINS,
-                                                                                  Operator.STARTS_WITH, Operator
-                                                                                          .ENDS_WITH,
+                                                                                  Operator.STARTS_WITH, Operator.STARTSWITH, Operator
+                                                                                          .ENDS_WITH, Operator.ENDSWITH,
                                                                                   Operator
                                                                                           .NOT, Operator.MATCHES,
                                                                                   Operator.CASE_IGNORE)

@@ -46,10 +46,18 @@ public enum Operator {
      */
     STARTS_WITH("startsWith"),
     /**
+     * For Kebab case support "starts-with", behavior is same as {@link Operator#STARTS_WITH}
+     */
+    STARTSWITH("starts-with"),
+    /**
      * The operator for ends-with clause.
      * This operator should perform case insensitive searches when possible.
      */
     ENDS_WITH("endsWith"),
+    /**
+     * For Kebab case support "ends-with", behavior is same as {@link Operator#ENDS_WITH}
+     */
+    ENDSWITH("ends-with"),
     /**
      * The operator for regular expression clause.
      * This operator should perform case insensitive searches when possible.

@@ -329,7 +329,7 @@ abstract class BaseExpressionProvider<P extends Path> implements ExpressionProvi
                          * For NOT. delegate the comparison to
                          * SingleValueExpressionBuilder. Known issue with NOT
                          * operator with multiple leafs within MongoDB
-                         * seralizer, issue opened on its JIRA site by self.
+                         * serializer, issue opened on its JIRA site by self.
                          */
                         final SingleValueExpressionBuilder e = new SingleValueExpressionBuilder(path,
                                                                                                 Operator.NOT.equals(
@@ -472,9 +472,11 @@ abstract class BaseExpressionProvider<P extends Path> implements ExpressionProvi
                     result = contains(path, this.value, this.isIgnoreCase());
                     break;
                 case STARTS_WITH:
+                case STARTSWITH:
                     result = startsWith(path, this.value, this.isIgnoreCase());
                     break;
                 case ENDS_WITH:
+                case ENDSWITH:
                     result = endsWith(path, this.value, this.isIgnoreCase());
                     break;
                 case MATCHES:
