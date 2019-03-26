@@ -273,7 +273,7 @@ $ mvn -Dskip.checkStyle=true -Dskip.javadocs.generation=true -Pdefault,integrati
 Most of this SDK's downstream dependency comes from **_[spring-data-common](https://docs.spring.io/spring-data/commons/docs/current/reference/html/)_**, however, it anticipates certain bootstrap dependencies depending on the choice of underlying persistence store. This is also anyway a required step for application's working with Spring data. Following section provides the dependencies required to work with both certified/supported persistence targets:
 
 * **MongoDB**
-Following are required bootstrap dependencies to make Spring data MongoDB as well as Querydsl work. The full working example can be seen in MongoDB based [example application's POM file](https://bitbucket.org/gt_tech/spring-data-querydsl-value-operators/src/master/examples/mongodb-spring-data-querydsl-value-operators-example/pom.xml?at=master&fileviewer=file-view-default)
+Following are required bootstrap dependencies to make Spring data MongoDB as well as Querydsl work. The full working example can be seen in MongoDB based [example application's POM file](https://bitbucket.org/gt_tech/spring-data-querydsl-value-operators/src/master/examples/mongodb-spring-data-querydsl-value-operators-example/pom.xml)
 ```xml
 	<dependency>
 		<groupId>com.querydsl</groupId>
@@ -607,7 +607,7 @@ Building on top of _use-case 1_, this approach solves for use-cases where API pr
 
 This approach works in a way that it installs a *BeanPostProcessor* which disables the strong type-conversion attempted by *QuerydslPredicateArgumentResolver* by overriding the default bean created by spring-data-commons and creating one of it's own and in that process, it injects a **no-op** *ConversionService* into overridden *QuerydslPredicateArgumentResolver*. The resolver on not finding appropriate converters in ConversionService simply packs the values as String and passes it further downstream and thus allowing the lower-layers to recieve the value operators and process them. This approach may be frowned upon (reason it's in *experimental* package) as it violates the core strong-typing (type-safe) searches Querydsl promises. However, *no pain no gain*, it's a little cost to pay to obtain advanced value-operators to be usable on non-string properties with it's full range. Also, it's worth be noted that most of persistent stores do not distinguish between Enum and String and treat them equivalently.
 
-For this solution, following bean alone for [QuerydslPredicateArgumentResolverBeanPostProcessor](https://bitbucket.org/gt_tech/spring-data-querydsl-value-operators/src/a5f95f7ed0d7f5bfe3fbda2dfb672572d8326290/querydsl-value-operators/src/main/java/org/bitbucket/gt_tech/spring/data/querydsl/value/operators/experimental/QuerydslPredicateArgumentResolverBeanPostProcessor.java?at=master) in consuming application Spring ApplicationContext would do the trick. The required dependency *QuerydslBindingsFactory* is already provided by Spring data commons.
+For this solution, following bean alone for [QuerydslPredicateArgumentResolverBeanPostProcessor](https://bitbucket.org/gt_tech/spring-data-querydsl-value-operators/src/master/querydsl-value-operators/src/main/java/org/bitbucket/gt_tech/spring/data/querydsl/value/operators/experimental/QuerydslPredicateArgumentResolverBeanPostProcessor.java) in consuming application Spring ApplicationContext would do the trick. The required dependency *QuerydslBindingsFactory* is already provided by Spring data commons.
 ```java
     @Bean
     public QuerydslPredicateArgumentResolverBeanPostProcessor querydslPredicateArgumentResolverBeanPostProcessor
@@ -616,6 +616,24 @@ For this solution, following bean alone for [QuerydslPredicateArgumentResolverBe
     }
 }
 ```
+
+Note that a delegate ConversionService can also be provided for scenarios when advanced search ability is required on fields of type like Date which can be natively performed by Spring data when proper bindings are defined. See the Spring context configurations in example application for more details. Below is a snippet for such cases:
+```java
+    /**
+	 * Note the use of delegate ConversionService which comes handy for types like
+	 * java.util.Date for handling powerful searches natively with Spring data.
+	 * @param factory QuerydslBindingsFactory instance
+	 * @param conversionServiceDelegate delegate ConversionService
+	 * @return
+	 */
+	@Bean
+	public QuerydslPredicateArgumentResolverBeanPostProcessor querydslPredicateArgumentResolverBeanPostProcessor(
+			QuerydslBindingsFactory factory, DefaultFormattingConversionService conversionServiceDelegate) {
+		return new QuerydslPredicateArgumentResolverBeanPostProcessor(factory, conversionServiceDelegate);
+	}
+}
+```
+
 Note that when this _BeanPostProcessor_ is enabled, _QuerydslHttpRequestContextAwareServletFilter_ is no longer mandatory and can be disabled.
 
 Example application  demonstrates the [usage](https://bitbucket.org/gt_tech/spring-data-querydsl-value-operators/src/master/examples/mongodb-spring-data-querydsl-value-operators-example/src/main/java/org/bitbucket/gt_tech/spring/data/querydsl/value/operators/example/spring/QueryDslValueOperatorsConfig.java?at=master) of this _BeanPostProcessor_ through **_querydslPredicateArgumentResolverBeanPostProcessor(..)_** method/bean.
