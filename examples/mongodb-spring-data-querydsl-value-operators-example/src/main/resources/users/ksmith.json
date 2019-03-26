@@ -6,7 +6,8 @@
 		"firstName": "Kevin",
 		"lastName": "Smith",
 		"middleName": "Mac",
-		"age": 33
+		"age": 33,
+		"dob": "1986-07-11"
 	},
 	"jobData": {
 		"department": "SALES",

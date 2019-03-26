@@ -15,6 +15,7 @@
  *******************************************************************************/
 package org.bitbucket.gt_tech.spring.data.querydsl.value.operators.example.dao;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import org.apache.commons.lang.StringUtils;
 import org.bitbucket.gt_tech.spring.data.querydsl.value.operators.ExpressionProviderFactory;
 import org.bitbucket.gt_tech.spring.data.querydsl.value.operators.example.model.QEmployee;
@@ -42,6 +43,11 @@ import com.querydsl.core.types.Predicate;
 
 import io.swagger.annotations.Api;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Optional;
 
 /**
  * Implementation of {@link Repository} which demonstrates the customization of
@@ -182,6 +188,32 @@ public interface EmployeeRepository
 		 * where an explicit alias is provided.
 		 */
 		// bindings.excludeUnlistedProperties(true);
+
+
+		/**
+		 * Demonstrating how to use DateTimePath in searches
+		 *
+		 * if only one value is specified - then exact date natch is performed
+		 * if two values are provided in input, its considered a date range check (to make it convenient for end user, the binding is smart enough to figure from and to dates regardless of order received from user.
+		 * if more than two values are provided, then all records matching to either of those date (Logical OR) is returned.
+		 */
+		bindings.bind(root.profile.dob).all((path, values) -> {
+			Iterator<? extends Date> it = values.iterator();
+			if ( values.size() == 1 )
+				return Optional.ofNullable(path.eq(it.next()));
+			else if ( values.size() == 2 ) {
+				Date first = it.next();
+				Date second = it.next();
+				return Optional.ofNullable(path.between( first.before(second) ? first : second, first.after(second) ? first : second));
+			}
+			else {
+				BooleanExpression e = path.eq(it.next());
+				while ( it.hasNext() && e != null ) {
+					e = e.or(path.eq(it.next()));
+				}
+				return Optional.ofNullable(e);
+			}
+		});
 
 	}
 

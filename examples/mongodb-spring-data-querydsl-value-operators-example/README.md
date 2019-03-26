@@ -206,6 +206,18 @@ http://localhost:8080/employees/search?profile.age=lt(41)
 http://localhost:8080/employees/emails/dgayle@company.com
 ```
 
+* Example(s) for a searching based on date of birth (java.util.Date). These examples utilizes native Spring Data QueryDSL logic to perform a variety of different ways a search can be executed without the use of value operators SDK library. Please note how a ConversionService delegate was provided to *__QuerydslPredicateArgumentResolverBeanPostProcessor__* in *__QueryDslValueOperatorsConfig.java__* to ensure that even with advanced experimental features, Date type conversion happens appropriately for query execution. It is advised to check the bindings on employee.profile.dob field in EmployeeRepository class.
+```
+- Search a user with specific date of birth: 
+http://localhost:8080/employees/search?profile.dob=1984-01-10
+
+- Search all users with date of birth in specific date range: 
+http://localhost:8080/employees/search?profile.dob=1994-01-10&profile.dob=1962-01-10
+
+- Search all users with date of birth matching with any of the input: 
+http://localhost:8080/employees/search?profile.dob=1984-01-10&profile.dob=1986-07-11&profile.dob=1978-10-08&profile.dob=1962-01-10
+```
+
 ### Exercise
 What changes would need to be made to allow searches to find employees between certain age group? (e.g. Find employees in 40 and 50 years old age group)
 

@@ -6,7 +6,8 @@
 		"firstName": "Dale",
 		"lastName": "Gayle",
 		"middleName": "Owen",
-		"age": 41
+		"age": 41,
+		"dob": "1978-10-08"
 	},
 	"jobData": {
 		"department": "HR",

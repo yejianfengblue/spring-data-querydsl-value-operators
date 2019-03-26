@@ -23,7 +23,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.querydsl.binding.QuerydslBindingsFactory;
+import org.springframework.format.support.DefaultFormattingConversionService;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -59,9 +61,16 @@ public class QueryDslValueOperatorsConfig {
 		return mappings;
 	}
 
+	/**
+	 * Note the use of delegate ConversionService which comes handy for types like
+	 * java.util.Date for handling powerful searches natively with Spring data.
+	 * @param factory QuerydslBindingsFactory instance
+	 * @param conversionServiceDelegate delegate ConversionService
+	 * @return
+	 */
 	@Bean
 	public QuerydslPredicateArgumentResolverBeanPostProcessor querydslPredicateArgumentResolverBeanPostProcessor(
-			QuerydslBindingsFactory factory) {
-		return new QuerydslPredicateArgumentResolverBeanPostProcessor(factory);
+			QuerydslBindingsFactory factory, DefaultFormattingConversionService conversionServiceDelegate) {
+		return new QuerydslPredicateArgumentResolverBeanPostProcessor(factory, conversionServiceDelegate);
 	}
 }

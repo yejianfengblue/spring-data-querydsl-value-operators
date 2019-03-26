@@ -15,6 +15,13 @@
  *******************************************************************************/
 package org.bitbucket.gt_tech.spring.data.querydsl.value.operators.example.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.bitbucket.gt_tech.spring.data.querydsl.value.operators.example.utils.JacksonCustomDateDeserializer;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
+
 /**
  * Sub-resource to hold user's basic profile info.
  * 
@@ -26,6 +33,11 @@ public class Profile {
 	private String firstName;
 	private String lastName;
 	private String middleName;
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE_TIME)
+	@JsonDeserialize(using = JacksonCustomDateDeserializer.class)
+	private Date dob;
 
 	private int age;
 
@@ -59,5 +71,13 @@ public class Profile {
 
 	public void setAge(int age) {
 		this.age = age;
+	}
+
+	public Date getDob() {
+		return dob;
+	}
+
+	public void setDob(Date dob) {
+		this.dob = dob;
 	}
 }

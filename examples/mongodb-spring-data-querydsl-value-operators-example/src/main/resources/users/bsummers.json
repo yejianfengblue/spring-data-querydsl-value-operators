@@ -6,7 +6,8 @@
 		"firstName": "Brianna",
 		"lastName": "Summers",
 		"middleName": "Harry",
-		"age": 50
+		"age": 50,
+		"dob": "1969-06-06"
 	},
 	"jobData": {
 		"department": "FINANCE",
