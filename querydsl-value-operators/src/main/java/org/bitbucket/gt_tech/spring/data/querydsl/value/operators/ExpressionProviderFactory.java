@@ -40,25 +40,25 @@ import java.util.Optional;
  */
 public final class ExpressionProviderFactory {
 
-  /*
-   * Internal cache for ExpressionProvider objects
-   */
-  static LoadingCache<Path, ExpressionProvider> loadingCache =
-      CacheBuilder.newBuilder().build(new CacheLoader<Path, ExpressionProvider>() {
-        @Override
-        public ExpressionProvider load(Path key) throws Exception {
-          if (StringPath.class.isAssignableFrom(key.getClass())) {
-            return new StringPathExpressionProviderImpl();
-          } else if (EnumPath.class.isAssignableFrom(key.getClass())) {
-            return new EnumPathExpressionProviderImpl();
-          } else if (NumberPath.class.isAssignableFrom(key.getClass())) {
-            return new NumberPathExpressionProviderImpl();
-          } else if (DateTimePath.class.isAssignableFrom(key.getClass())) {
-            return new DateTimePathExpressionProviderImpl();
-          }
-          return null;
-        }
-      });
+    /*
+    Internal cache for ExpressionProvider objects
+     */
+    static LoadingCache<Path, ExpressionProvider> loadingCache = CacheBuilder.newBuilder()
+            .build(new CacheLoader<Path, ExpressionProvider>() {
+                @Override
+                public ExpressionProvider load(Path key) throws Exception {
+                    if (StringPath.class.isAssignableFrom(key.getClass())) {
+                        return new StringPathExpressionProviderImpl();
+                    } else if (EnumPath.class.isAssignableFrom(key.getClass())) {
+                        return new EnumPathExpressionProviderImpl();
+                    } else if (NumberPath.class.isAssignableFrom(key.getClass())) {
+                        return new NumberPathExpressionProviderImpl();
+                    } else if (DateTimePath.class.isAssignableFrom(key.getClass())) {
+                        return new DateTimePathExpressionProviderImpl();
+                    }
+                    return null;
+                }
+            });
 
     private static boolean supportsUnTypedValues = false;
 
