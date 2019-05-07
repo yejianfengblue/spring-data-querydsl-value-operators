@@ -6,6 +6,7 @@
 		"firstName": "Brianna",
 		"lastName": "Summers",
 		"middleName": "Harry",
+        "dateOfBirth": "1950-01-30",
 		"age": 50
 	},
 	"jobData": {
