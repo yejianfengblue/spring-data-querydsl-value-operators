@@ -69,6 +69,8 @@ public interface UserRepository extends JpaRepository<User, String>, QuerydslPre
 
         bindings.bind(root.userName)
                 .all((path, values) -> ExpressionProviderFactory.getPredicate(path, values));
+        bindings.bind(root.creationDate)
+            .all((path, values) -> ExpressionProviderFactory.getPredicate(path, values));
         bindings.bind(root._id)
                 .all((path, values) -> ExpressionProviderFactory.getPredicate(path, values));
 

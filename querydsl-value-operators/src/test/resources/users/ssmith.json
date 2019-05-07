@@ -1,6 +1,7 @@
 {
 	"_id": null,
 	"userName": "ssmith",
+	"creationDate": "2019-04-23T17:19:39Z",
 	"status": "ACTIVE",
 	"profile": {
 		"firstName": "Stephen",

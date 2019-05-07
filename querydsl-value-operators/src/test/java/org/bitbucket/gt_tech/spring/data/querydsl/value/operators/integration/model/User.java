@@ -20,6 +20,7 @@ import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @QueryEntity
@@ -34,6 +35,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int _id;
     private String userName;
+    private Date creationDate;
     private UserStatus status;
     @OneToOne(targetEntity = Profile.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Profile profile;
@@ -56,6 +58,14 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public UserStatus getStatus() {
