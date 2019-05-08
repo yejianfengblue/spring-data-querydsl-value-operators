@@ -79,14 +79,11 @@
 		<java.source.version>1.8</java.source.version>
 		<java.target.version>1.8</java.target.version>
 
-		<spring.boot.version>2.0.1.RELEASE</spring.boot.version>
-		<commons-lang.version>2.6</commons-lang.version>
-		<commons.collection.version>3.2.1</commons.collection.version>
-		<guava.version>18.0</guava.version>
-		<!-- align query dsl version with Spring boot version though library users 
+		<spring.boot.version>2.1.4.RELEASE</spring.boot.version>
+		<commons.collection.version>4.3</commons.collection.version>
+		<!-- align query dsl version with Spring boot version though library users
 			can override -->
-		<querydsl.version>4.1.4</querydsl.version>
-		<servlet.api.version>4.0.0</servlet.api.version>
+		<querydsl.version>4.2.1</querydsl.version>
 
 		<groovy.version>2.4.15</groovy.version>
 		<spock.version>1.1-groovy-2.4</spock.version>
@@ -153,35 +150,23 @@
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-core</artifactId>
 			<!-- version managed by spring-boot-dependencies -->
-			<!-- <version>${querydsl.version></version> -->
 		</dependency>
 
 		<dependency>
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-collections</artifactId>
-			<version>${querydsl.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>${guava.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>${commons-lang.version}</version>
+			<!-- version managed by spring-boot-dependencies -->
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
+			<!-- version managed by spring-boot-dependencies -->
 		</dependency>
 
 		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
 			<version>${commons.collection.version}</version>
 		</dependency>
 
@@ -193,7 +178,7 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>${servlet.api.version}</version>
+			<!-- version managed by spring-boot-dependencies -->
 			<scope>provided</scope>
 		</dependency>
 
@@ -272,7 +257,7 @@
 			<!-- enables mocking of classes (in addition to interfaces) -->
 			<groupId>net.bytebuddy</groupId>
 			<artifactId>byte-buddy</artifactId>
-			<version>1.6.5</version>
+			<!-- version managed by spring-boot-dependencies -->
 			<scope>test</scope>
 		</dependency>
 
