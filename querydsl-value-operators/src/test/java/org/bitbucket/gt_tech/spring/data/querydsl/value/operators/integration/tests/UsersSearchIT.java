@@ -243,4 +243,86 @@ public class UsersSearchIT {
         assertThat(response.getBody(), contains(
                 hasProperty("userName", is("ksmith"))));
     }
+
+    @Test
+    public void testUserSearchWithDateOfBirth_EqualsNeedsToBeExactClause() {
+        ResponseEntity<List<User>> response = template.exchange("/users/search?profile.dateOfBirth=04/29/1980 00:00:00 UTC",
+                                                                HttpMethod.GET, null,
+                                                                new ParameterizedTypeReference<List<User>>() {
+                                                                });
+
+        assertEquals(1, response.getBody()
+                                .size());
+        assertThat(response.getBody(), contains(
+            hasProperty("userName", is("ssmith"))));
+    }
+
+
+    @Test
+    public void testUserSearchWithDateOfBirth_EqualsNeedsToBeExactAlternativeNotationClause() {
+        ResponseEntity<List<User>> response = template.exchange("/users/search?profile.dateOfBirth=Tue, April 29 1980 00:00:00 GMT",
+                                                                HttpMethod.GET, null,
+                                                                new ParameterizedTypeReference<List<User>>() {
+                                                                });
+
+        assertEquals(1, response.getBody()
+                                .size());
+        assertThat(response.getBody(), contains(
+            hasProperty("userName", is("ssmith"))));
+    }
+
+    @Test
+    public void testUserSearchWithDateOfBirth_LessThanEqualsClause() {
+        ResponseEntity<List<User>> response = template.exchange("/users/search?profile.dateOfBirth=lte(12/31/1969)",
+                                                            HttpMethod.GET, null,
+                                                            new ParameterizedTypeReference<List<User>>() {
+                                                            });
+
+        assertEquals(2, response.getBody()
+                                .size());
+        assertThat(response.getBody(), containsInAnyOrder(
+            hasProperty("userName", is("bsummers")),
+            hasProperty("userName", is("dgayle"))));
+    }
+
+    @Test
+    public void testUserSearchWithDateOfBirth_LessThanAndGreaterThanClause() {
+        ResponseEntity<List<User>> response = template.exchange("/users/search?profile.dateOfBirth=lt(1/1/1970)&profile.dateOfBirth=and(gt(12/31/1959))",
+                                                                HttpMethod.GET, null,
+                                                                new ParameterizedTypeReference<List<User>>() {
+                                                                });
+
+        assertEquals(1, response.getBody()
+                                .size());
+        assertThat(response.getBody(), contains(
+            hasProperty("userName", is("dgayle"))));
+    }
+
+    @Test
+    public void testUserSearchWithCreationDate_EqualsClause() {
+        ResponseEntity<List<User>> response = template.exchange("/users/search?creationDate=2/21/19 14:15:36 UTC",
+                                                                HttpMethod.GET, null,
+                                                                new ParameterizedTypeReference<List<User>>() {
+                                                                });
+
+        assertEquals(1, response.getBody()
+                                .size());
+        assertThat(response.getBody(), contains(
+            hasProperty("userName", is("bsummers"))));
+    }
+
+    @Test
+    public void testUserSearchWithCreationDate_GreaterThanLessThanDateWithoutTimeClause() {
+        ResponseEntity<List<User>> response = template.exchange("/users/search?creationDate=gt(2/21/19)&creationDate=and(lt(2/22/19))",
+                                                                HttpMethod.GET, null,
+                                                                new ParameterizedTypeReference<List<User>>() {
+                                                                });
+
+        assertEquals(2, response.getBody()
+                                .size());
+        assertThat(response.getBody(), containsInAnyOrder(
+            hasProperty("userName", is("bsummers")),
+            hasProperty("userName", is("dgayle"))));
+    }
+
 }

@@ -174,6 +174,16 @@ The syntax of using value operator is shown below. There are also sensible defau
 * For individual search field, default implicit operator is **eq** if an explicit operator isn't provided with the value, for e.g.: _/search?field=value_ which is as same as _/search/field=**eq**(value)_
 * For multi-valued search attribute values, default implicit logical operator between multiple values is **or** unless an explicit operator is provided on second or subsequent values, for e.g.: _/search?field=value1&field=value2_ is same as _/search?field=value1&field=**or**(value2)_
 
+###### Date(time) values
+Please note that for enabling operators on date(time) the [Advanced features](#advanced-usage) need to be enabled.
+
+This library relies on the default [ConversionService](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/convert/ConversionService.html) to convert from String parameters to a Date object. The ConversionService uses the [Date.parse(String s)](https://docs.oracle.com/javase/8/docs/api/java/util/Date.html#parse-java.lang.String-) method, which accepts various formats. Please refer to the documentation for the complete overview. A usable notation is shown below.
+* MM/DD/YYYY HH:mm:ss zzz
+
+Examples:
+* 02/28/2019 15:00:33 UTC
+* 03/31/2019 (time can be ommitted, but note that this will be translated to 03/31/2019 00:00:00 UTC, which for equals operations need to exactly match)
+* 04/29/2019 16:05:00 CET
 ###### Supported persistence store/datasources
 The core design of this library is offered by introducing an intermediate abstraction layer between two ends of search, **a)** query forming and **b)** query execution in out of box Spring Data Querydsl extensions, hence this library doesn't directly influence the supported persistence types. 
 **Querydsl** supports _JPA_,  _JDO_, _Lucene_, _Collections_ and _MongoDB_, however the underlying framework of this library - i.e. **_[Spring Data](http://projects.spring.io/spring-data/)_** only supports this on following:
@@ -536,9 +546,9 @@ For **List** based properties, it's required to apply an easier alias as demonst
 
 [ExpressionProviderFactory](https://bitbucket.org/gt_tech/spring-data-querydsl-value-operators/src/master/querydsl-value-operators/src/main/java/org/bitbucket/gt_tech/spring/data/querydsl/value/operators/ExpressionProviderFactory.java?at=master&fileviewer=file-view-default) is primary entry-point into the SDK library which delegates to appropriate implementation of [ExpressionProvider](https://bitbucket.org/gt_tech/spring-data-querydsl-value-operators/src/master/querydsl-value-operators/src/main/java/org/bitbucket/gt_tech/spring/data/querydsl/value/operators/ExpressionProvider.java?at=master) based on provided [Path](http://www.querydsl.com/static/querydsl/4.0.4/apidocs/com/querydsl/core/types/Path.html)
 
-**Note** that for more complex querying on _NumberPath_ and _EnumPath_, some **advanced extensions** are offered by this library that are also equally easy to enable and is discussed in next section.
+**Note** that for more complex querying on _NumberPath_, _EnumPath_ and _DateTimePath_ some **advanced extensions** are offered by this library that are also equally easy to enable and is discussed in next section.
 
-# Advance usage & considerations
+#<a name="advanced-usage"></a> Advance usage & considerations
 Value operators work seemlessly on String based properties/fields. However these operators do not work well with non-string values like Number or Enum since by default [QuerydslPredicateArgumentResolver](https://docs.spring.io/spring-data/data-commons/docs/current/api/org/springframework/data/web/querydsl/QuerydslPredicateArgumentResolver.html) that resolves annotation [QuerydslPredicate](https://docs.spring.io/spring-data/data-commons/docs/current/api/org/springframework/data/querydsl/binding/QuerydslPredicate.html), which is used to annotate search handling method on RESTful method (aka RestController methods), performs **strong-typing** as per the guiding design principle of _Querydsl_, i.e. it attempts to convert the value(s) recieved from HTTP request to exact type defined in corresponding Q-Classes. This works well without value operators and is inline with Querydsl promise of allowing type-safe queries however hinders the path for value-operators to do their trick. This section provides an overview of how to configure certain experimental components from this library to get around this. Users of this library whose search inputs are limited to String properties can ignore reading this section further.
 
 *QuerydslPredicateArgumentResolver* uses [ConversionService](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/core/convert/ConversionService.html) for type-conversion. Since conversion of String to Enum or String to Integer is core to Spring's dependency injection, it isn't advisable to change those default built-in converters (**_never_** do it). The library provides an experimental combination of a [BeanPostProcessor](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/config/BeanPostProcessor.html) and a [ServletFilter](https://docs.oracle.com/javaee/6/api/javax/servlet/Filter.html) that can be explicitly configured in target application's context to disable the strong type-conversion attempted by *QuerydslPredicateArgumentResolver*. 

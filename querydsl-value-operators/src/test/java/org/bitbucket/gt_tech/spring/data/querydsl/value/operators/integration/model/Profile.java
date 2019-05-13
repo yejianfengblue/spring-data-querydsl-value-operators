@@ -19,6 +19,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Date;
 
 @Entity
 public class Profile {
@@ -29,6 +30,7 @@ public class Profile {
 	private String firstName;
 	private String lastName;
 	private String middleName;
+	private Date dateOfBirth;
 
 	private int age;
 
@@ -70,5 +72,13 @@ public class Profile {
 
 	public void setAge(int age) {
 		this.age = age;
+	}
+
+	public Date getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(Date dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
 	}
 }

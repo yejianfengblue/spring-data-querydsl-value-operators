@@ -69,6 +69,8 @@ public interface UserRepository extends JpaRepository<User, String>, QuerydslPre
 
         bindings.bind(root.userName)
                 .all((path, values) -> ExpressionProviderFactory.getPredicate(path, values));
+        bindings.bind(root.creationDate)
+            .all((path, values) -> ExpressionProviderFactory.getPredicate(path, values));
         bindings.bind(root._id)
                 .all((path, values) -> ExpressionProviderFactory.getPredicate(path, values));
 
@@ -76,6 +78,8 @@ public interface UserRepository extends JpaRepository<User, String>, QuerydslPre
                 .all((path, values) -> ExpressionProviderFactory.getPredicate(path, values));
         bindings.bind(root.profile.lastName)
                 .all((path, values) -> ExpressionProviderFactory.getPredicate(path, values));
+      bindings.bind(root.profile.dateOfBirth)
+          .all((path, values) -> ExpressionProviderFactory.getPredicate(path, values));
 
         // Demonstration of how a certain attribute or search parameter can be compared on single-value level for
         // indicating the fact that search interface doesn't expect API consumer to provide multiple values for this

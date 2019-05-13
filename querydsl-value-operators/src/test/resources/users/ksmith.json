@@ -1,11 +1,13 @@
 {
 	"_id": null,
 	"userName": "ksmith",
+	"creationDate": "2019-03-22T16:18:38Z",
 	"status": "LOCKED",
 	"profile": {
 		"firstName": "Kevin",
 		"lastName": "Smith",
 		"middleName": "Mac",
+		"dateOfBirth": "1970-03-31",
 		"age": 33
 	},
 	"jobData": {

@@ -20,6 +20,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.DateTimePath;
 import com.querydsl.core.types.dsl.EnumPath;
 import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.StringPath;
@@ -52,6 +53,8 @@ public final class ExpressionProviderFactory {
                         return new EnumPathExpressionProviderImpl();
                     } else if (NumberPath.class.isAssignableFrom(key.getClass())) {
                         return new NumberPathExpressionProviderImpl();
+                    } else if (DateTimePath.class.isAssignableFrom(key.getClass())) {
+                        return new DateTimePathExpressionProviderImpl();
                     }
                     return null;
                 }
