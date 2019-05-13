@@ -15,8 +15,8 @@
  *******************************************************************************/
 package org.bitbucket.gt_tech.spring.data.querydsl.value.operators.experimental;
 
-import org.apache.commons.lang.Validate;
-import org.apache.commons.lang.reflect.ConstructorUtils;
+import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.bitbucket.gt_tech.spring.data.querydsl.value.operators.ExpressionProviderFactory;
 import org.bitbucket.gt_tech.spring.data.querydsl.value.operators.Operator;
 import org.springframework.beans.BeansException;

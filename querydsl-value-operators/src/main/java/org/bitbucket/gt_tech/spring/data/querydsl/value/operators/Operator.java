@@ -15,7 +15,7 @@
  *******************************************************************************/
 package org.bitbucket.gt_tech.spring.data.querydsl.value.operators;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Defines the value-operators supported by this component.

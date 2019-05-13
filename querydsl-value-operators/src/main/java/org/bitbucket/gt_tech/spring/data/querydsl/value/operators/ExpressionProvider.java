@@ -18,7 +18,7 @@ package org.bitbucket.gt_tech.spring.data.querydsl.value.operators;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Optional;
 
