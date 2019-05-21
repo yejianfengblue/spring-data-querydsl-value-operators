@@ -16,6 +16,7 @@
 package org.bitbucket.gt_tech.spring.data.querydsl.value.operators.integration.model;
 
 import com.querydsl.core.annotations.QueryEntity;
+import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
@@ -43,6 +44,9 @@ public class User {
     private List<Email> emails;
     @OneToOne(targetEntity = JobData.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private JobData jobData;
+
+    @Type(type="yes_no")
+    private boolean enabled;
 
     private Long employeeId;
 
@@ -111,5 +115,13 @@ public class User {
 
     public void setEmployeeId(Long employeeId) {
         this.employeeId = employeeId;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

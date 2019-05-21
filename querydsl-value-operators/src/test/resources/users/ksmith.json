@@ -3,6 +3,7 @@
 	"userName": "ksmith",
 	"creationDate": "2019-03-22T16:18:38Z",
 	"status": "LOCKED",
+	"enabled": false,
 	"employeeId": 8000000,
 	"profile": {
 		"firstName": "Kevin",

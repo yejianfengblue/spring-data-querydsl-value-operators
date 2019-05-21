@@ -17,6 +17,7 @@ package org.bitbucket.gt_tech.spring.data.querydsl.value.operators.integration.d
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
+import org.apache.commons.lang3.StringUtils;
 import org.bitbucket.gt_tech.spring.data.querydsl.value.operators.ExpressionProviderFactory;
 import org.bitbucket.gt_tech.spring.data.querydsl.value.operators.integration.model.QUser;
 import org.bitbucket.gt_tech.spring.data.querydsl.value.operators.integration.model.User;
@@ -78,11 +79,20 @@ public interface UserRepository extends JpaRepository<User, String>, QuerydslPre
                 .all((path, values) -> ExpressionProviderFactory.getPredicate(path, values));
         bindings.bind(root.profile.lastName)
                 .all((path, values) -> ExpressionProviderFactory.getPredicate(path, values));
-      bindings.bind(root.profile.dateOfBirth)
+
+        bindings.bind(root.profile.dateOfBirth)
           .all((path, values) -> ExpressionProviderFactory.getPredicate(path, values));
 
         bindings.bind(root.employeeId)
                 .all((path, values) -> ExpressionProviderFactory.getPredicate(path, values));
+
+
+        // demonstrates usage of BooleanPath natively// doing type conversion, ugh! here since test's setup uses
+        // experimental advanced process that disables type-conversion in Spring and hence the value received
+        // is of String type.
+        bindings.bind(root.enabled).firstOptional((path, optionalValue) ->
+                optionalValue.map( v -> path.eq(v))
+        );
 
         // Demonstration of how a certain attribute or search parameter can be compared on single-value level for
         // indicating the fact that search interface doesn't expect API consumer to provide multiple values for this

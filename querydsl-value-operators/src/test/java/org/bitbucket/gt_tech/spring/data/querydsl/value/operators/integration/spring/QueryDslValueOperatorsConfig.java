@@ -20,14 +20,19 @@ import org.bitbucket.gt_tech.spring.data.querydsl.value.operators.experimental
 import org.bitbucket.gt_tech.spring.data.querydsl.value.operators.experimental
         .QuerydslPredicateArgumentResolverBeanPostProcessor;
 import org.bitbucket.gt_tech.spring.data.querydsl.value.operators.integration.model.User;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.querydsl.binding.QuerydslBindingsFactory;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -61,7 +66,8 @@ public class QueryDslValueOperatorsConfig {
 
 	@Bean
 	public QuerydslPredicateArgumentResolverBeanPostProcessor querydslPredicateArgumentResolverBeanPostProcessor(
-			QuerydslBindingsFactory factory) {
-		return new QuerydslPredicateArgumentResolverBeanPostProcessor(factory);
+			QuerydslBindingsFactory factory, @Qualifier("defaultConversionService")  ConversionService conversionService) {
+		return new QuerydslPredicateArgumentResolverBeanPostProcessor(factory, conversionService,
+				new Class[]{Date.class, LocalDate.class, Timestamp.class, Boolean.class, boolean.class});
 	}
 }

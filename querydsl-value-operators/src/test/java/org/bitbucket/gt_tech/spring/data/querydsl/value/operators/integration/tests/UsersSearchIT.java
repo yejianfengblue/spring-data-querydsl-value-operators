@@ -341,4 +341,38 @@ public class UsersSearchIT {
             hasProperty("userName", is("dgayle"))));
     }
 
+
+    /*
+     * Demonstrates the use of BooleanPath natively
+     */
+    @Test
+    public void testUserSearchWithEnabledStatusAsTrue() {
+        ResponseEntity<List<User>> response = template.exchange("/users/search?enabled=true",
+                HttpMethod.GET, null,
+                new ParameterizedTypeReference<List<User>>() {
+                });
+
+        assertEquals(3, response.getBody()
+                .size());
+        assertThat(response.getBody(), containsInAnyOrder(
+                hasProperty("userName", is("bsummers")),
+                hasProperty("userName", is("dgayle")),
+                hasProperty("userName", is("ssmith"))));
+    }
+
+    /*
+     * Demonstrates the use of BooleanPath natively
+     */
+    @Test
+    public void testUserSearchWithEnabledStatusAsFalse() {
+        ResponseEntity<List<User>> response = template.exchange("/users/search?enabled=false",
+                HttpMethod.GET, null,
+                new ParameterizedTypeReference<List<User>>() {
+                });
+
+        assertEquals(1, response.getBody()
+                .size());
+        assertThat(response.getBody(), contains(
+                hasProperty("userName", is("ksmith"))));
+    }
 }

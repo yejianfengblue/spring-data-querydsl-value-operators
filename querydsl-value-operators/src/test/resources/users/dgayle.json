@@ -3,6 +3,7 @@
 	"userName": "dgayle",
 	"creationDate": "2019-02-21T15:17:37Z",
 	"status": "ACTIVE",
+	"enabled": true,
 	"employeeId": 6000000,
 	"profile": {
 		"firstName": "Dale",
