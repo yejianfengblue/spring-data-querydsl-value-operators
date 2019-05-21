@@ -129,7 +129,7 @@ public class UsersSearchIT {
      */
     @Test
     public void testUserSearchWithEmployeeId() {
-        ResponseEntity<List<User>> response = template.exchange("/users/search?employeeId=1000000",
+        ResponseEntity<List<User>> response = template.exchange("/users/search?employeeId=9223372036854775801",
                 HttpMethod.GET, null,
                 new ParameterizedTypeReference<List<User>>() {
                 });
