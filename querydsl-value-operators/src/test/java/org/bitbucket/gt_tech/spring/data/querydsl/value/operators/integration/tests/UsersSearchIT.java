@@ -124,6 +124,22 @@ public class UsersSearchIT {
                 hasProperty("userName", is("ssmith"))));
     }
 
+    /*
+     * Test for Long value in NumberPath
+     */
+    @Test
+    public void testUserSearchWithEmployeeId() {
+        ResponseEntity<List<User>> response = template.exchange("/users/search?employeeId=1000000",
+                HttpMethod.GET, null,
+                new ParameterizedTypeReference<List<User>>() {
+                });
+
+        assertEquals(1, response.getBody()
+                                .size());
+        assertThat(response.getBody(), contains(
+                hasProperty("userName", is("ssmith"))));
+    }
+
 
     @Test
     public void testUserSearchWithEmailsStartsWith() {

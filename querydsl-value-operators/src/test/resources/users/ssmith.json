@@ -3,6 +3,7 @@
 	"userName": "ssmith",
 	"creationDate": "2019-04-23T17:19:39Z",
 	"status": "ACTIVE",
+	"employeeId": 1000000,
 	"profile": {
 		"firstName": "Stephen",
 		"lastName": "Smith",

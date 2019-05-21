@@ -44,6 +44,8 @@ public class User {
     @OneToOne(targetEntity = JobData.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private JobData jobData;
 
+    private Long employeeId;
+
     public int get_id() {
         return _id;
     }
@@ -101,5 +103,13 @@ public class User {
 
     public void setJobData(JobData jobData) {
         this.jobData = jobData;
+    }
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
     }
 }
