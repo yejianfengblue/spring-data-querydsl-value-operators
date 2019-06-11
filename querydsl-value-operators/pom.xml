@@ -13,7 +13,7 @@
 
 	<groupId>org.bitbucket.gt_tech</groupId>
 	<artifactId>spring-data-querydsl-value-operators</artifactId>
-	<version>4.0.0</version>
+	<version>5.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Spring Data QueryDSL value operators</name>
@@ -413,7 +413,8 @@
 					<excludes>
 						<exclude>**/*IT.java</exclude>
 					</excludes>
-					<forkCount>0</forkCount>
+					<!-- Do not set this to 0 in commit as that would block Jacoco code coverage reports due to its agent not getting forked -->
+					<!-- <forkCount>0</forkCount> -->
 				</configuration>
 			</plugin>
 			<plugin>
@@ -509,7 +510,8 @@
 							<excludes>
 								<exclude>**/*Test.java</exclude>
 							</excludes>
-							<forkCount>0</forkCount>
+							<!-- Do not set this to 0 in commit as that would block Jacoco code coverage reports due to its agent not getting forked -->
+							<!-- <forkCount>0</forkCount> -->
 						</configuration>
 						<executions>
 							<execution>
