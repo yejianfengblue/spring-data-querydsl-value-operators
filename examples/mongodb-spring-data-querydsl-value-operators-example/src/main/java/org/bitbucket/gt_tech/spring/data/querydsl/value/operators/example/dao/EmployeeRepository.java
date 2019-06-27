@@ -16,7 +16,7 @@
 package org.bitbucket.gt_tech.spring.data.querydsl.value.operators.example.dao;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bitbucket.gt_tech.spring.data.querydsl.value.operators.ExpressionProviderFactory;
 import org.bitbucket.gt_tech.spring.data.querydsl.value.operators.example.model.QEmployee;
 import org.bitbucket.gt_tech.spring.data.querydsl.value.operators.example.model.Employee;
