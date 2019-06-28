@@ -48,14 +48,14 @@ class NumberPathExpressionProviderImpl extends BaseExpressionProvider<NumberPath
 	}
 
 	@Override protected BooleanExpression eq(NumberPath path, String value, boolean ignoreCase) {
-		Validate.isTrue(StringUtils.isNumeric(value), "Invalid numeric value");
+		Validate.isTrue(isNumeric(value), "Invalid numeric value");
 		//return path.eq(Integer.parseInt(StringUtils.trim(value)));
 		return path.eq(new NumberConversions<Tuple>(Projections.tuple(path)).newInstance(
 				NumberUtils.createNumber(StringUtils.trim(value))).get(path));
 	}
 
 	@Override protected BooleanExpression ne(NumberPath path, String value, boolean ignoreCase) {
-		Validate.isTrue(StringUtils.isNumeric(value), "Invalid numeric value");
+		Validate.isTrue(isNumeric(value), "Invalid numeric value");
 		//return path.ne(Integer.parseInt(StringUtils.trim(value)));
 		return path.ne(new NumberConversions<Tuple>(Projections.tuple(path)).newInstance(
 				NumberUtils.createNumber(StringUtils.trim(value))).get(path));
@@ -78,30 +78,35 @@ class NumberPathExpressionProviderImpl extends BaseExpressionProvider<NumberPath
 	}
 
 	@Override protected BooleanExpression gt(NumberPath path, String value) {
-		Validate.isTrue(StringUtils.isNumeric(value), "Invalid numeric value");
+		Validate.isTrue(isNumeric(value), "Invalid numeric value");
 		//return path.gt(Integer.parseInt(StringUtils.trim(value)));
 		return path.gt((Number) new NumberConversions<Tuple>(Projections.tuple(path)).newInstance(
 				NumberUtils.createNumber(StringUtils.trim(value))).get(path));
 	}
 
 	@Override protected BooleanExpression gte(NumberPath path, String value) {
-		Validate.isTrue(StringUtils.isNumeric(value), "Invalid numeric value");
+		Validate.isTrue(isNumeric(value), "Invalid numeric value");
 		//return path.goe(Integer.parseInt(StringUtils.trim(value)));
 		return path.goe((Number) new NumberConversions<Tuple>(Projections.tuple(path)).newInstance(
 				NumberUtils.createNumber(StringUtils.trim(value))).get(path));
 	}
 
 	@Override protected BooleanExpression lt(NumberPath path, String value) {
-		Validate.isTrue(StringUtils.isNumeric(value), "Invalid numeric value");
+		Validate.isTrue(isNumeric(value), "Invalid numeric value");
 		//return path.lt(Integer.parseInt(StringUtils.trim(value)));
 		return path.lt((Number) new NumberConversions<Tuple>(Projections.tuple(path)).newInstance(
 				NumberUtils.createNumber(StringUtils.trim(value))).get(path));
 	}
 
 	@Override protected BooleanExpression lte(NumberPath path, String value) {
-		Validate.isTrue(StringUtils.isNumeric(value), "Invalid numeric value");
+		Validate.isTrue(isNumeric(value), "Invalid numeric value");
 		//return path.loe(Integer.parseInt(StringUtils.trim(value)));
 		return path.loe((Number) new NumberConversions<Tuple>(Projections.tuple(path)).newInstance(
 				NumberUtils.createNumber(StringUtils.trim(value))).get(path));
+	}
+	
+	
+	private boolean isNumeric(String inValue) {
+		return NumberUtils.isParsable(StringUtils.trim(inValue));
 	}
 }
